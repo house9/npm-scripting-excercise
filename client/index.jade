@@ -1,0 +1,22 @@
+doctype html
+html(lang="en")
+  head
+    title Grade Book
+    script(src="#{locals['dist/vendor.js'].substr(5)}")
+    script(src="#{locals['dist/app.js'].substr(5)}")
+    script(src="#{locals['dist/modules.js'].substr(5)}")
+    if compileDebug
+      script(src="//localhost:9091/livereload.js")
+
+    //- link(rel="stylesheet",href="#{locals['dist/main.css'].substr(5)}")
+  body(ng-app="gradeBookApp")
+    h1 Hello World
+    p.
+      1 + 1 = {{ 1 + 1}}
+
+    p
+      a(ui-sref="home") Home
+      | |
+      a(ui-sref="students") Students
+
+    div(ui-view)
