@@ -5,6 +5,7 @@
 /client/tmp
 /client/node_modules
 /client/bower_components
+/client/_build-config.json
 
 # misc
 .DS_Store
