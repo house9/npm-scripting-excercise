@@ -9,10 +9,43 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "jshint": "latest"
+    "main-bower-files": "latest",
+    "browserify": "^6.3.2",
+    "hashmark": "^2.0.0",
+    "http-server": "^0.7.3",
+    "jade": "git://github.com/jadejs/jade.git",
+    "jshint": "^2.5.10",
+    "live-reload": "^0.2.0",
+    "minifyify": "^4.4.0",
+    "nodemon": "^1.2.1",
+    "opener": "^1.4.0",
+    "parallelshell": "^1.0.0",
+    "rimraf": "^2.2.8"
   },
   "scripts": {
+    "example": "node ./bin/example-bin.js",
+    "bowerfiles": "node ./bin/bower-files.js",
     "postinstall": "bower install",
-    "lint": "jshint **.js"
+
+    "clean": "rimraf dist/*",
+
+    "prebuild": "npm run clean -s",
+    "build": "npm run build:scripts-source-modules -s && npm run build:scripts-source-app -s && npm run build:scripts-vendor -s && npm run build:markup:index -s && npm run build:markup:templates -s",
+    "build:scripts-source-app": "browserify -d app/*.js -p [minifyify --compressPath . --map app.js.map --output dist/app.js.map] | hashmark -n dist/app.js -s -l 8 -m _build-config.json 'dist/{name}{hash}{ext}'",
+    "build:scripts-source-modules": "browserify -d app/**/*.js -p [minifyify --compressPath . --map modules.js.map --output dist/modules.js.map] | hashmark -n dist/modules.js -s -l 8 -m _build-config.json 'dist/{name}{hash}{ext}'",
+    "build:scripts-vendor": "browserify -d `npm run bowerfiles -s` -p [minifyify --compressPath . --map vendor.js.map --output dist/vendor.js.map] | hashmark -n dist/vendor.js -s -l 8 -m _build-config.json 'dist/{name}{hash}{ext}'",
+    "build:styles": "stylus assets/styles/main.styl -m -o dist/ && hashmark -s -l 8 -m assets.json dist/main.css 'dist/{name}{hash}{ext}'",
+    "build:markup:index": "jade --pretty index.jade --obj _build-config.json -o dist",
+    "build:markup:templates": "jade --hierarchy app -o dist/templates",
+
+    "watch": "parallelshell \"npm run watch:build -s\"",
+    "watch:build": "nodemon -q -w assets/ -w app/ --ext '.' --exec 'npm run build'",
+
+    "open:dev": "opener http://localhost:9090",
+
+    "serve": "http-server -p 9090 dist/",
+    "live-reload": "live-reload --port 9091 dist/",
+
+    "dev": "npm run open:dev -s & parallelshell \"npm run live-reload -s\" \"npm run serve -s\" \"npm run watch -s\""
   }
 }
