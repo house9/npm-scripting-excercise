@@ -1,0 +1,18 @@
+{
+  "author": "Jesse House",
+  "name": "gradebook-client",
+  "version": "0.0.1",
+  "homepage": "https://github.com/house9",
+  "licenses": {
+    "type": "TODO",
+    "url": "https://github.com/gradebook"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jshint": "latest"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+    "lint": "jshint **.js"
+  }
+}
