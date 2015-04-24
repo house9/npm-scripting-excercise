@@ -1,15 +1,14 @@
 doctype html
-html(lang="en")
+html(lang="en", ng-app="gradeBookApp")
   head
     title Grade Book
-    script(src="#{locals['dist/vendor.js'].substr(5)}")
-    script(src="#{locals['dist/app.js'].substr(5)}")
-    script(src="#{locals['dist/modules.js'].substr(5)}")
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+
     if compileDebug
       script(src="//localhost:9091/livereload.js")
 
-    //- link(rel="stylesheet",href="#{locals['dist/main.css'].substr(5)}")
-  body(ng-app="gradeBookApp")
+    link(rel="stylesheet",href="theme/sing-wrapbootstrap/css/application.min.css")
+  body(data-ng-controller='GradeBookAppController', data-sn-demo='', data-ng-class="{'nav-static': app.state['nav-static'], 'login-page': loginPage, 'error-page': errorPage}")
     h1 Hello World
     p.
       1 + 1 = {{ 1 + 1}}
@@ -19,4 +18,29 @@ html(lang="en")
       | |
       a(ui-sref="students") Students
 
-    div(ui-view)
+    #app.app(data-ui-view='')
+
+    //- div(ui-view)
+
+
+    // -----------------------------------------------
+    script(src="vendor/jquery/dist/jquery.min.js")
+    script(src="#{locals['dist/vendor.js'].substr(5)}")
+
+    script(src="vendor/ngstorage/ngStorage.min.js")
+    script(src='vendor/angular-bootstrap/ui-bootstrap-tpls.min.js')
+    script(src='vendor/bootstrap-select/dist/js/bootstrap-select.min.js')
+    script(src='vendor/angular-bootstrap-select/build/angular-bootstrap-select.min.js')
+    script(src='vendor/datatables/media/js/jquery.dataTables.js')
+    script(src='vendor/angular-datatables/dist/angular-datatables.min.js')
+    script(src='vendor/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.min.js')
+
+    script(src='vendor/bootstrap/dist/js/bootstrap.min.js')
+    script(src='vendor/slimScroll/jquery.slimscroll.min.js')
+    script(src='vendor/widgster/widgster.js')
+    script(data-pace-options='{ "target": ".content-wrap", "ghostTime": 1000 }', src='vendor/pace.js/pace.min.js')
+    script(src='vendor/jquery-touchswipe/jquery.touchSwipe.min.js')
+
+
+    script(src="#{locals['dist/app.js'].substr(5)}")
+    script(src="#{locals['dist/modules.js'].substr(5)}")

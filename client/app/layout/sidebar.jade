@@ -1,0 +1,32 @@
+.js-sidebar-content
+  header.logo.hidden-xs
+    a(href='index.html') {{app.name}}
+
+    .sidebar-status.visible-xs
+      a.dropdown-toggle(href='#', data-toggle='dropdown')
+        span.thumb-sm.avatar.pull-right
+          img.img-circle(src='demo/img/people/a5.jpg', alt='...')
+
+        span.circle.bg-warning.fw-bold.text-gray-dark
+          | 13
+        |             &nbsp;
+        |             Philip
+        strong Smith
+
+        b.caret
+
+    ul.sidebar-nav
+      li
+        a.collapsed(data-target='#sidebar-dashboard', data-toggle='collapse', data-parent='#sidebar')
+          span.icon
+            i.fa.fa-desktop
+          |                 Dashboard
+
+          i.toggle.fa.fa-angle-down
+
+        ul#sidebar-dashboard.collapse
+          li
+            a(data-ui-sref="app.page({ page: 'dashboard', child: null })") Dashboard
+
+          li
+            a(data-ui-sref="app.page({ page: 'widgets', child: null })") Widgets
