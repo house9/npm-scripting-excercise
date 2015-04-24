@@ -9,7 +9,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "main-bower-files": "latest",
+    "main-bower-files": "git://github.com:ck86/main-bower-files.git",
     "browserify": "^6.3.2",
     "hashmark": "^2.0.0",
     "http-server": "^0.7.3",
@@ -30,13 +30,17 @@
     "clean": "rimraf dist/*",
 
     "prebuild": "npm run clean -s",
-    "build": "npm run build:scripts-source-modules -s && npm run build:scripts-source-app -s && npm run build:scripts-vendor -s && npm run build:markup:index -s && npm run build:markup:templates -s",
+    "rebuild": "npm run prebuild -s && npm run build -s",
+    "build": "npm run build:scripts-source-modules -s && npm run build:scripts-source-app -s && npm run build:scripts-vendor -s && npm run build:markup:index -s && npm run build:markup:templates -s && npm run build:scripts-copy-vendor -s && npm run build:styles-copy-vendor -s",
     "build:scripts-source-app": "browserify -d app/*.js -p [minifyify --compressPath . --map app.js.map --output dist/app.js.map] | hashmark -n dist/app.js -s -l 8 -m _build-config.json 'dist/{name}{hash}{ext}'",
     "build:scripts-source-modules": "browserify -d app/**/*.js -p [minifyify --compressPath . --map modules.js.map --output dist/modules.js.map] | hashmark -n dist/modules.js -s -l 8 -m _build-config.json 'dist/{name}{hash}{ext}'",
-    "build:scripts-vendor": "browserify -d `npm run bowerfiles -s` -p [minifyify --compressPath . --map vendor.js.map --output dist/vendor.js.map] | hashmark -n dist/vendor.js -s -l 8 -m _build-config.json 'dist/{name}{hash}{ext}'",
+    "build:scripts-vendor": "browserify -d `npm run bowerfiles -s | grep .js` -p [minifyify --compressPath . --map vendor.js.map --output dist/vendor.js.map] | hashmark -n dist/vendor.js -s -l 8 -m _build-config.json 'dist/{name}{hash}{ext}'",
+    "build:scripts-copy-vendor": "mkdir -p dist/vendor && cp vendor/datatables/media/js/jquery.dataTables.min.js dist/vendor/jquery.dataTables.min.js",
+    "build:styles-copy-vendor": "mkdir -p dist/vendor && cp vendor/sing-theme/application.min.css dist/vendor/sing-theme.css",
     "build:styles": "stylus assets/styles/main.styl -m -o dist/ && hashmark -s -l 8 -m assets.json dist/main.css 'dist/{name}{hash}{ext}'",
     "build:markup:index": "jade --pretty index.jade --obj _build-config.json -o dist",
     "build:markup:templates": "jade --hierarchy app -o dist/templates",
+    "build:foo": "browserify --debug -d /Users/house/workspace/me/gradebook/client/bower_components/jquery/dist/jquery.js /Users/house/workspace/me/gradebook/client/bower_components/datatables/media/js/dataTables.js",
 
     "watch": "parallelshell \"npm run watch:build -s\"",
     "watch:build": "nodemon -q -w assets/ -w app/ --ext '.' --exec 'npm run build'",
